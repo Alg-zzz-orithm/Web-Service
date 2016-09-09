@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Maruti Papers Web Services:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="MarutiPapersWebServices-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Maruti Papers Web Services:war exploded" />
+    </root>
+  </artifact>
+</component>
