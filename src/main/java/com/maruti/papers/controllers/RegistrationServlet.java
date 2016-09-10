@@ -2,7 +2,7 @@ package com.maruti.papers.controllers;
 
 import com.maruti.papers.models.User;
 import com.maruti.papers.services.UserService;
-import com.maruti.papers.utility.RequestBody;s
+import com.maruti.papers.utility.RequestBody;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,13 +17,12 @@ import java.io.PrintWriter;
 public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserService();
-        String string  = RequestBody.getBody(request);
-        System.out.println(string);
+        String jsonBody  = RequestBody.getBody(request);
         JSONParser jsonParser = new JSONParser();
         JSONObject responseJson = new JSONObject();
 
         try {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(string);
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonBody);
             String firstName = (String) jsonObject.get("firstName");
             String lastName = (String) jsonObject.get("lastName");
             String emailAddress = (String) jsonObject.get("emailAddress");
@@ -31,16 +30,13 @@ public class RegistrationServlet extends HttpServlet {
             String mobileNumber = (String) jsonObject.get("mobileNumber");
 
             if (userService.isUserExist(emailAddress)) {
-                System.out.println("User Exists");
                 responseJson.put("status",200);
                 responseJson.put("message","User already exists in the database");
             }
             else{
-                System.out.println("User Dont Exists");
+                userService.insertUser(new User(firstName,lastName,emailAddress,password, mobileNumber));
                 responseJson.put("status",400);
                 responseJson.put("message","User registeration Successful");
-                userService.insertUser(new User(firstName,lastName,emailAddress,password, mobileNumber));
-
             }
         } catch (ParseException exception) {
             exception.printStackTrace();
@@ -50,7 +46,5 @@ public class RegistrationServlet extends HttpServlet {
         }
         PrintWriter out = response.getWriter();
         out.print(responseJson);
-
-
     }
 }

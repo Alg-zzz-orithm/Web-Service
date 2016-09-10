@@ -12,22 +12,12 @@ public class Database {
     private static final String PASSWORD = "";
 
     private Connection connection = null;
-    private Statement statement = null;
-
     public Database() throws Exception{
         Class.forName(JDBC_DRIVER);
         connection = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
-        statement = connection.createStatement();
     }
 
-    public ResultSet executeSqlQuery(String sql) throws SQLException {
-        return statement.executeQuery(sql);
-
-
-
-
-
-
+    public Connection getConnection() {
+        return connection;
     }
-
 }
