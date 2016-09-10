@@ -39,4 +39,24 @@ public class UserService {
             return false;
         }
     }
+
+    public boolean matchPassword(String emailAddress,String password) throws Exception{
+        Database database = new Database();
+        Connection connection = database.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT PASSWORD FROM user WHERE EMAIL_ADDRESS = ?");
+        preparedStatement.setString(1,emailAddress);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            String passwordToBeMatched = resultSet.getString("PASSWORD");
+            if (passwordToBeMatched.equals(password)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }
