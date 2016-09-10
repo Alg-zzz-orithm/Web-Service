@@ -59,4 +59,13 @@ public class UserService {
             return false;
         }
     }
+
+    public void updatePassword(String emailAddress,String password) throws Exception{
+        Database database = new Database();
+        Connection connection = database.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user SET PASSWORD = ? WHERE EMAIL_ADDRESS = ?");
+        preparedStatement.setString(1,password);
+        preparedStatement.setString(2,emailAddress);
+        preparedStatement.executeUpdate();
+    }
 }
