@@ -68,4 +68,22 @@ public class UserService {
         preparedStatement.setString(2,emailAddress);
         preparedStatement.executeUpdate();
     }
+
+    public User getUserProfile(String emailAddress) throws Exception{
+        User user = null;
+        Database database = new Database();
+        Connection connection = database.getConnection();
+        PreparedStatement preparedStatement  = connection.prepareStatement("SELECT * FROM user WHERE EMAIL_ADDRESS = ?");
+        preparedStatement.setString(1,emailAddress);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            user = new User();
+            user.setUserId(resultSet.getInt("USER_ID"));
+            user.setFirstName(resultSet.getString("FIRST_NAME"));
+            user.setLastName(resultSet.getString("LAST_NAME"));
+            user.setEmailAddress(resultSet.getString("EMAIL_ADDRESS"));
+            user.setMobileNumber(resultSet.getString("MOBILE_NUMBER"));
+        }
+        return user;
+    }
 }
